@@ -14,7 +14,7 @@ By comparing these methods side by side, you’ll understand the trade-offs in r
 This .NET 8 solution contains three projects:
 
 - **MinimalApiCqrs.Core**  
-  Contains the sample endpoint registration infrastructure and shared CQRS/Mediator extensions.
+  Contains the sample endpoint registration.
 
 - **MinimalApiCqrs.Explicit**  
   Demonstrates the explicit approach for Minimal APIs. Exceptions are thrown from handlers and caught on the route definitions.
@@ -84,7 +84,7 @@ public class TodoEndpoints : IEndpointMapper
 
 ### Simple Approach
 
-In the **Simple** project, you register CQRS routes that return a `Result<T>` or `Result` object. No exception-based flow—errors are wrapped in `Result` and handled automatically:
+In the **Simple** project, you register CQRS routes that return a `Result<T>` or `Result` object. Flow errors are wrapped in `Result` and handled automatically:
 
 ```csharp
 public class TodoEndpoints : IEndpointMapper

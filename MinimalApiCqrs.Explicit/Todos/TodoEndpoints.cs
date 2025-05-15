@@ -1,6 +1,5 @@
 ﻿namespace MinimalApiCqrs.Simple.Todos;
 
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Routing;
 using MinimalApiCqrs.Core.Endpoints;
 using MinimalApiCqrs.Explicit.Core;

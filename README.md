@@ -32,6 +32,66 @@ Each project follows this layout:
 
 ---
 
+## Command and Query Structure
+
+The project follows the Command Query Responsibility Segregation (CQRS) pattern, which separates the operations that change data from the operations that read data. The CQRS pattern helps to create a more scalable, maintainable, and testable architecture.
+
+The structure of a command or query follows the naming convention:
+
+- `[NameOfOperation]Command.cs`
+- `[NameOfOperation]CommandHandler.cs`
+- `[NameOfOperation]CommandResponse.cs` (optional)
+- `[NameOfOperation]CommandValidator.cs` (optional)
+
+For queries, only the validator is optional.
+
+### Commands
+
+Commands represent operations that change data, such as creating, updating, or deleting entities. Each command consists of four parts:
+
+1. **Command**: A class that encapsulates the data required for the operation. It should be a plain old C# object (POCO) with properties that match the data that needs to be sent.
+
+2. **Command Handler**: A class that implements the `ICommandHandler<TCommand, TResult>` interface and contains the logic to perform the operation. The command handler is responsible for loading any necessary data, validating the input, and updating the data store.
+
+3. **Command Response** (optional): A class that encapsulates the result of the operation. It should be a plain old C# object (POCO) with properties that match the data that needs to be returned.
+
+4. **Command Validator** (optional): A class that uses Fluent Validation, a popular .NET library for building strongly-typed validation rules, to validate the input data for the command. The validator should be a separate class to keep the validation logic separate from the command logic.
+
+### Queries
+
+Queries represent operations that read data, such as retrieving a list of entities or a single entity. Each query consists of four parts:
+
+1. **Query**: A class that encapsulates the data required for the operation. It should be a plain old C# object (POCO) with properties that match the data that needs to be sent.
+
+2. **Query Handler**: A class that implements the `IQueryHandler<TQuery, TResult>` interface and contains the logic to perform the operation. The query handler is responsible for loading any necessary data, validating the input, and returning the result.
+
+3. **Query Response**: A class that encapsulates the result of the operation. It should be a plain old C# object (POCO) with properties that match the data that needs to be returned.
+
+4. **Query Validator** (optional): A class that uses Fluent Validation to validate the input data for the query. The validator should be a separate class to keep the validation logic separate from the query logic.
+
+## FluentValidation
+
+The project uses FluentValidation, which is a popular .NET library for building strongly-typed validation rules. The project includes an example of a validator for the `CreateTodoCommand` in the `CreateTodoCommandValidator.cs` file.
+
+```csharp
+internal class CreateTodoCommandValidator : AbstractValidator<CreateTodoCommand>
+{
+ public CreateTodoCommandValidator()
+ {
+  this.RuleFor(t => t.Title)
+   .NotEmpty()
+   .MinimumLength(5)
+   .MaximumLength(20);
+
+  this.RuleFor(t => t.Description)
+   .NotEmpty()
+   .MaximumLength(100);
+ }
+}
+```
+
+---
+
 ## Endpoint Mapping
 
 ### Explicit Approach
